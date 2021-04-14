@@ -1,17 +1,19 @@
 <template>
   <div>
     <h1>App</h1>
-    <Row
-      v-for="record in records"
-      v-bind="{ migrateFunction, schema, record }"
-      :key="record[keyField]"
-      :active="active === record[keyField]"
-      @selected="active = record[keyField]"
-    >
-      <template v-slot:input="{ record }"
-        ><slot name="input" v-bind="{ record }"
-      /></template>
-    </Row>
+    <div class="approver__rows">
+      <Row
+        v-for="(record, key) in recordsByKey"
+        v-bind="{ migrateFunction, schema, record, confirmFunction }"
+        :key="key"
+        :active="active === key"
+        @selected="active = key"
+      >
+        <template v-slot:input="{ record }"
+          ><slot name="input" v-bind="{ record }"
+        /></template>
+      </Row>
+    </div>
   </div>
 </template>
 
@@ -23,10 +25,16 @@ export default {
   components: {
     Row,
   },
+  computed: {
+    recordsByKey() {
+      return fromPairs(
+        this.records.map((record) => [record[this.keyField], record])
+      );
+    },
+  },
   data() {
     return {
       active: null,
-      completed: fromPairs(this.records.map((r) => [r[this.keyField], false])),
     };
   },
   props: {
@@ -46,17 +54,19 @@ export default {
       type: Function,
       required: true,
     },
+    confirmFunction: {
+      type: Function,
+      required: true,
+    },
   },
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+.approver {
+  &__rows {
+    display: grid;
+    grid-gap: 20px;
+  }
 }
 </style>

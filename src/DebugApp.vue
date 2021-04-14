@@ -1,6 +1,8 @@
 <template>
   <div>
-    <BatchApprover v-bind="{ records, schema, migrateFunction }">
+    <BatchApprover
+      v-bind="{ records, schema, migrateFunction, confirmFunction }"
+    >
       <template v-slot:input="{ record }">
         <h3>{{ record.name }}</h3>
       </template>
@@ -31,11 +33,6 @@ const schema = [
     options: CUISINES.map((c) => ({ value: c, id: c, label: c })),
     validation: "required",
   },
-  {
-    name: "submit",
-    type: "submit",
-    label: "Submit Changes",
-  },
 ];
 
 export default {
@@ -50,6 +47,21 @@ export default {
         cuisine: CUISINES[record.id],
       };
     },
+    confirmFunction(record) {
+      console.log("confirmed");
+      return record;
+    },
   },
 };
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
