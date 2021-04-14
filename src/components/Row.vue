@@ -1,38 +1,36 @@
 <template>
   <div class="row">
-    <button class="row__arrow">&rarr;</button>
+    <button class="row__arrow" @click="$emit('selected')">&rang;</button>
 
     <div class="row__input">
       <slot name="input" v-bind="{ record }" />
     </div>
 
-    <div class="row__output" v-if="active">
+    <div class="row__output" v-show="active">
       <FormulateForm
-        :value="formData"
+        v-if="formData"
+        v-model="formData"
         :schema="schema"
-        @input="(val) => $emit('input', val)"
-        @submit="$emit('confirmed', record)"
+        @submit="confirmed = true"
       />
     </div>
   </div>
 </template>
 
 <script>
+import "@braid/vue-formulate/themes/snow/snow.scss";
+
 export default {
-  computed: {
-    formData: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        this.$emit("input", val);
-      },
-    },
+  data() {
+    return {
+      confirmed: false,
+      formData: null,
+    };
   },
   props: {
     record: {
       type: Object,
-      required: true,
+      required: false,
     },
     value: {
       type: Object,
@@ -57,7 +55,9 @@ export default {
   },
   watch: {
     active() {
-      this.$emit("input", this.migrateFunction(this.record));
+      if (!this.formData) {
+        this.formData = this.migrateFunction(this.record);
+      }
     },
   },
 };
@@ -80,6 +80,16 @@ export default {
 
   &__input {
     flex-basis: 40%;
+  }
+
+  &__output {
+    flex: 1;
+
+    .formulate-form {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
   }
 }
 </style>

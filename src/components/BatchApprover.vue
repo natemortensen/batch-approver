@@ -3,11 +3,10 @@
     <h1>App</h1>
     <Row
       v-for="record in records"
-      v-model="converted[record[keyField]]"
       v-bind="{ migrateFunction, schema, record }"
       :key="record[keyField]"
-      :active="false"
-      :completed="completed[record[keyField]]"
+      :active="active === record[keyField]"
+      @selected="active = record[keyField]"
     >
       <template v-slot:input="{ record }"
         ><slot name="input" v-bind="{ record }"
@@ -17,8 +16,8 @@
 </template>
 
 <script>
-import Row from "@/components/Row.vue";
 import { fromPairs } from "lodash-es";
+import Row from "@/components/Row.vue";
 
 export default {
   components: {
@@ -26,7 +25,7 @@ export default {
   },
   data() {
     return {
-      converted: fromPairs(this.records.map((r) => [r[this.keyField], {}])),
+      active: null,
       completed: fromPairs(this.records.map((r) => [r[this.keyField], false])),
     };
   },

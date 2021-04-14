@@ -12,8 +12,8 @@
 import BatchApprover from "@/components/BatchApprover";
 
 const records = [
-  { name: "Hamburger", id: 1 },
-  { name: "Pizza", id: 2 },
+  { name: "Hamburger", id: 0 },
+  { name: "Pizza", id: 1 },
 ];
 
 const CUISINES = ["American", "Italian"];
