@@ -41,11 +41,13 @@ export default {
     return { records, schema };
   },
   methods: {
-    migrateFunction(record) {
-      return {
-        ...record,
-        cuisine: CUISINES[record.id],
-      };
+    async migrateFunction(record) {
+      return fetch("https://reqres.in/api/products/3").then(function () {
+        return {
+          ...record,
+          cuisine: CUISINES[record.id],
+        };
+      });
     },
     confirmFunction(record) {
       console.log("confirmed");
