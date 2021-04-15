@@ -1,7 +1,7 @@
 {
-  "name": "batch-approver",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@natemortensen/batch-approver",
+  "version": "0.1.2",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build src/components/BatchApprover.vue --target lib --name BatchApprover",
@@ -42,5 +42,22 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "## Project setup ``` yarn install ```",
+  "main": "dist/BatchApprover.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natemortensen/batch-approver.git"
+  },
+  "keywords": [
+    "list",
+    "migrations",
+    "crud"
+  ],
+  "author": "Nate Mortensen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natemortensen/batch-approver/issues"
+  },
+  "homepage": "https://github.com/natemortensen/batch-approver#readme"
 }

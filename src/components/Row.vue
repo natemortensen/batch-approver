@@ -7,11 +7,9 @@
       <slot name="input" v-bind="{ record }" />
     </div>
 
-    <div class="row__output" v-show="active" v-if="formData">
+    <div class="row__output" v-show="active" v-if="loaded">
       <FormulateForm v-model="formData" :schema="schema" />
-      <button type="button" v-if="!confirmed" @click="confirm">
-        Confirm
-      </button>
+      <button type="button" v-if="!confirmed" @click="confirm">Confirm</button>
     </div>
   </div>
 </template>
@@ -21,6 +19,7 @@ export default {
   data() {
     return {
       confirmed: false,
+      loaded: false,
       formData: null,
     };
   },
@@ -28,6 +27,11 @@ export default {
     async confirm() {
       await this.confirmFunction(this.formData);
       this.confirmed = true;
+    },
+    async setFormData() {
+      const data = await this.migrateFunction(this.record);
+      this.formData = data;
+      this.loaded = true;
     },
   },
   props: {
@@ -55,7 +59,7 @@ export default {
   watch: {
     active() {
       if (!this.formData) {
-        this.formData = this.migrateFunction(this.record);
+        this.setFormData();
       }
     },
   },
