@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     async confirm() {
-      await this.confirmFunction(this.formData);
-      this.confirmed = true;
+      const result = await this.confirmFunction(this.formData);
+      if (result) this.confirmed = true;
     },
     async setFormData() {
       const data = await this.migrateFunction(this.record);
